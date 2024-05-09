@@ -58,19 +58,29 @@ def add : Nat -> Nat -> Nat :=
 Now, some proofs. All these can be proved by composing things we have
 already seen.
 -/
-theorem a : (1 = 1) ∧ (2 = 2) := sorry
-theorem b : (1 = 1) ∧ ((2 = 2) ∨ (2 = 3)) := sorry
-theorem c : False ∨ (True ∧ (3 = 3)) := sorry
+theorem one_eq_one : 1 = 1 := Eq.refl 1
+theorem two_eq_two : 2 = 2 := Eq.refl 2
+
+theorem tri : True := True.intro
+theorem and_tri : True ∧ True := And.intro tri tri
+theorem or_tri_l : True ∨ False := Or.inl tri
+theorem or_tri_r : False ∨ True := Or.inr tri
+
+theorem a : (1 = 1) ∧ (2 = 2) := And.intro one_eq_one two_eq_two
+theorem b : (1 = 1) ∧ ((2 = 2) ∨ (2 = 3)) := And.intro one_eq_one (Or.inl two_eq_two)
+theorem c : False ∨ (True ∧ (3 = 3)) := Or.inr (And.intro tri (Eq.refl 3))
+
 /-
 The following has two different written proofs.
 -/
-theorem d : True ∨ True := sorry
+theorem d : True ∨ True := Or.inr tri
 /-
 Try whether you can prove this. It is just an equality.
 -/
-theorem e : 1 + 1 = 2 := sorry
+theorem e : 1 + 1 = 2 := Eq.refl (1 + 1)
 
 /-
 Can you write a proof for the following?
 -/
 theorem f : False := sorry
+/- We cannot as False has no proof -/
