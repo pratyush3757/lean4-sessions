@@ -6,8 +6,12 @@ example (p q r : Prop) : (p ∧ q) ∧ r → p ∧ (q ∧ r) :=
 
 example (p q r : Prop) : p ∧ (q ∨ r) → (p ∧ q) ∨ (p ∧ r) :=
   fun h => Or.elim h.right
-          (fun hq => Or.inl (And.intro h.left hq)) /- gives `(p ∧ q) ∨ _ ` -/
-          (fun hr => Or.inr (And.intro h.left hr)) /- gives ` _ ∨ (p ∧ r)` -/
+          (fun hq =>
+            Or.inl (And.intro h.left hq) /- gives `(p ∧ q) ∨ _ ` -/
+          )
+          (fun hr =>
+            Or.inr (And.intro h.left hr) /- gives ` _ ∨ (p ∧ r)` -/
+          )
 
 /- This works for some reason ???? -/
 -- example (p q : Prop) : ¬(p ∨ q) → (¬p ∧ ¬q) :=
@@ -34,14 +38,9 @@ example (p q : Prop) : (¬p ∧ ¬q) → ¬(p ∨ q) :=
       )
 
 example (p q r : Prop) : ((p ∨ q) → r) → ((p → r) ∧ (q → r)) :=
-  sorry
-
-/-xxxxxxxxxxxx Playground xxxxxxxxxxxxxxxxxxx-/
-example (p q : Prop) : (p → q) → (¬q → ¬p) :=
-  fun hpq => fun hnq => fun hp => hnq (hpq hp)
-
-/-xxxxxxxxxxxx Playground xxxxxxxxxxxxxxxxxxx-/
-
+  fun h => And.intro
+            (fun hp => h (Or.inl hp))
+            (fun hq => h (Or.inr hq))
 
 /-
 You cannot prove this. Try and see the intuition why.
