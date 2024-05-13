@@ -47,6 +47,13 @@ You cannot prove this. Try and see the intuition why.
 
 Does law of excluded middle help to prove this?
 -/
+
+#check False.elim
+
+/-
+`¬¬p → p` means `(p → False → False) → p`
+But if False → C can be proved, then it's ex falso
+-/
 example (p : Prop) : ¬¬p → p :=
   sorry
 
@@ -54,8 +61,10 @@ example (p : Prop) : ¬¬p → p :=
 These, you can prove without law of excluded middle or any other
 non-constructive proof technique.
 -/
+
+/- `¬¬¬p → ¬p` means `(p → False → False → False) → (p → False)`  -/
 example (p : Prop) : ¬¬¬p → ¬p :=
-  sorry
+  fun h => fun hp => sorry
 
 example (p : Prop) : ¬¬(p ∨ ¬p) :=
   sorry
