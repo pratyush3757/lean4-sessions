@@ -118,3 +118,20 @@ theorem succ_odd_even {n : Nat} : Odd n → Even (n + 1) := by
   apply Exists.intro (k+1)
   rw [hk]
   rfl
+
+/- List of Tactics:
+intro
+have
+specialize
+apply
+decide
+contradiction
+rw, rewrite
+rfl
+cases
+exact
+assumption
+constructor
+left
+right
+-/
