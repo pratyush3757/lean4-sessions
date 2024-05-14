@@ -94,7 +94,6 @@ def Odd (n : Nat) := ∃k, n = (2 * k) + 1
 
 #check Exists.intro
 
-
 theorem zero_even : Even 0 :=
   Exists.intro 0 (Eq.symm (Nat.mul_zero 2))
 
@@ -118,3 +117,4 @@ theorem succ_odd_even {n : Nat} : Odd n → Even (n + 1) := by
   have ⟨k , hk⟩ := hn
   apply Exists.intro (k+1)
   rw [hk]
+  rfl
