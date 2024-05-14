@@ -72,3 +72,5 @@ example (p : Prop) : ¬¬¬p → ¬p :=
 
 example (p : Prop) : ¬¬(p ∨ ¬p) :=
   sorry
+
+example (p : Prop) : ¬¬(¬¬p → p) := sorry
