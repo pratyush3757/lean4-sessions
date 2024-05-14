@@ -62,9 +62,13 @@ These, you can prove without law of excluded middle or any other
 non-constructive proof technique.
 -/
 
-/- `¬¬¬p → ¬p` means `(p → False → False → False) → (p → False)`  -/
+/- `¬¬¬p → ¬p` means `(¬¬p → False) → False`
+or `(¬p → False → False) → False`
+or `(p → False → False → False) → (p → False)` -/
 example (p : Prop) : ¬¬¬p → ¬p :=
-  fun h => fun hp => sorry
+  fun hnnnp => 
+    fun hp => 
+      hnnnp (fun hnp => hnp hp) /- hnnnp takes `¬¬p` or `¬p → False` -/
 
 example (p : Prop) : ¬¬(p ∨ ¬p) :=
   sorry
