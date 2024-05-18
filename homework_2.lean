@@ -69,3 +69,6 @@ theorem divides_sum {k n m : Nat} :
 This should be tricky without knowing a tactic we haven't seen.
 -/
 example : ¬(divides 3 5) := sorry
+  intro hdiv
+  have ⟨k,hk⟩ := hdiv
+  omega
