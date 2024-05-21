@@ -86,3 +86,64 @@ theorem bobnn : ∀n, Bob n n := by
       apply Alice.Fst k
       case hk => exact hk
       case h => exact ihn (Nat.succ n - k) (by omega)
+
+
+/- After break -/
+class Animal (a : Type) where
+  sound : a → String
+
+structure Cat where
+  name : String
+deriving Repr
+
+structure Dog where
+  name : String
+deriving Repr
+
+#eval Cat.mk "Foo"
+#eval Dog.mk "Pluto"
+#eval Cat.mk "Tom"
+
+instance : Animal Cat where
+  sound c := c.name ++ " Meow"
+
+instance : Animal Dog where
+  sound d := d.name ++ " Barks"
+
+#eval Animal.sound (Dog.mk "Pluto")
+
+section GroupTheory
+
+class Group (G : Type u) where
+  op : G → G → G
+  assoc : ∀ a b c : G, op (op a b) c = op a (op b c)
+  e : G
+  identity : ∀ a : G, (op a e = a) ∧ (op e a = a)
+  inverse : ∀ a : G, ∃ b : G, (op a b = e) ∧ (op b a = e)
+
+/- To make the op infix -/
+open Group
+infixl:70 " * " => op
+
+def is_identity [Group G] (e' : G) := ∀ a : G, (e' * a = a) ∧ (a * e' = a)
+
+theorem unique_identity [Group G] : ∀ e' : G, is_identity e' → e' = e := by
+  intro e' h
+  specialize h e
+  have h' := identity e'
+  have hlef := Eq.symm h'.left
+  exact Eq.trans (hlef) h.left
+
+theorem left_cancellation [Group G] : ∀ a x y : G, a * x = a * y → x = y := by
+  intro a x y eqn
+  have ⟨ainv, h_ainv⟩ := inverse a
+  calc
+    x = (e : G) * x := Eq.symm (identity x).right
+    _ = (ainv * a) * x := by rw [h_ainv.right]
+    _ = ainv * (a * x) := by rw [assoc]
+    _ = ainv * (a * y) := by rw [eqn]
+    _ = (ainv * a) * y := by rw [assoc]
+    _ = (e : G) * y    := by rw [h_ainv.right]
+    _ = y              := by exact (identity y).right
+
+end GroupTheory
